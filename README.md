@@ -7,7 +7,7 @@
 
 # Kirby Middleware
 
-An easy and customizable way to manage access to website pages according to the roles assigned to users within the Kirby panel interface.
+`Kirby Middleware` provide a powerful mechanism for inspecting and filtering requests entering in your `Kirby` site.
 
 ****
 
@@ -18,9 +18,10 @@ An easy and customizable way to manage access to website pages according to the 
 - [3. Middleware](#middleware)
 - [4. Options](#options)
 - [5. Facades](#facades)
-- [6. Roadmap](#roadmap)
-- [7. License](#license)
-- [8. Credits](#credits)
+- [6. Plugins](#plugins)
+- [7. Roadmap](#roadmap)
+- [8. License](#license)
+- [9. Credits](#credits)
 
 ## Installation
 
@@ -323,6 +324,132 @@ There are some `facades` to simplify the use of this plugin:
 | Beebmx\KirbyMiddleware\Facades\Middleware | Beebmx\KirbyMiddleware\Middleware | Middleware::instance() |
 | Beebmx\KirbyMiddleware\Facades\Pipeline   | Beebmx\Pipeline\Pipeline          | new Pipeline           |
 | Beebmx\KirbyMiddleware\Facades\Request    | Beebmx\KirbyMiddleware\Request    | Request::instance()    |
+
+## Plugins
+
+If you are creating your own plugin, and it's required to use some type of request manipulation, `Kirby Middleware` is also for you.
+
+### Installation
+
+First, you need to inform `Kirby Middleware` than you have some `global` middleware or `group` middleware to register.
+
+The easyest way to do this, is with a hook
+
+```php
+use Kirby\Cms\App as Kirby;
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Kirby::plugin('beebmx/kirby-security', [
+    'hooks' => [
+        'system.loadPlugins:after' => function () {
+            Middleware::appendToGroup('security', [
+                ValidateUser::class,
+                ValidateUserRole::class,
+                ValidateUserTeam::class,
+            ]);
+        },
+    ],
+]);
+```
+
+### Global methods
+
+You can add your own validations to the `global` middleware. To achieve this, you have several methods.
+
+#### Append
+
+The `append` method adds the middleware to the end of the `global` middleware.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::append(ValidateVisitor::class),
+```
+
+#### Prepend
+
+The `prepend` method adds the middleware to the beginning of the `global` middleware.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::prepend(ValidateVisitor::class),
+```
+
+#### getGlobalMiddleware
+
+The `getGlobalMiddleware` method returns an array of all the `global` middleware registered.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::getGlobalMiddleware(),
+```
+
+### Group methods
+
+You can add your own validations to the `groups` middleware. To achieve this, you have several methods.
+
+#### Append
+
+The `appendToGroup` method adds the middleware to the end of the `groups` middlewares.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::appendToGroup('security', [
+    ValidateUser::class,
+    ValidateUserRole::class,
+    ValidateUserTeam::class,
+]);
+```
+
+#### prependToGroup
+
+The `prependToGroup` method adds the middleware to the beginning of the `groups` middlewares.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::prependToGroup('security', [
+    ValidateUser::class,
+    ValidateUserRole::class,
+    ValidateUserTeam::class,
+]);
+```
+
+#### removeFromGroup
+
+The `removeFromGroup` method removes some middleware from a specific `group` middleware.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::removeFromGroup('security', ValidateVisitor::class),
+```
+
+#### addClassToGroup
+
+The `addClassToGroup` method adds a `Middleware Group` class to the `groups` middlewares.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::addClassToGroup(SecurityMiddlewareGroup::class),
+```
+
+#### getMiddlewareGroups
+
+The `getMiddlewareGroups` method returns an array of all the `groups` middleware registered.
+
+```php
+use Beebmx\KirbyMiddleware\Facades\Middleware;
+
+Middleware::getMiddlewareGroups(),
+```
+
+> [!IMPORTANT]
+> Remember, all the group middleware classes should extend `Beebmx\KirbyMiddleware\MiddlewareGroups\MiddlewareGroup` class.
 
 ## Roadmap
 

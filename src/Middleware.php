@@ -320,7 +320,7 @@ class Middleware
         return in_array($middleware, $this->getGlobalMiddleware());
     }
 
-    public function response()
+    public function response(): mixed
     {
         if ($this->response) {
             return $this->response;
