@@ -7,7 +7,7 @@
 
 # Kirby Middleware
 
-`Kirby Middleware` provide a powerful mechanism for inspecting and filtering requests entering in your `Kirby` site.
+`Kirby Middleware` provides a powerful mechanism for inspecting and filtering requests entering your `Kirby` site.
 
 ****
 

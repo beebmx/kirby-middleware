@@ -35,6 +35,10 @@ return [
             throw Middleware::instance()->response();
         }
 
+        if (Middleware::instance()->response() instanceof Response) {
+            Middleware::instance()->response()->send();
+        }
+
         return $data;
     },
 ];

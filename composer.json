@@ -1,9 +1,9 @@
 {
 	"name": "beebmx/kirby-middleware",
-	"description": "Kirby Middleware provide a powerful mechanism for inspecting and filtering requests entering in your Kirby site.",
+	"description": "Kirby Middleware provides a powerful mechanism for inspecting and filtering requests entering in your Kirby site.",
 	"license": "MIT",
 	"type": "kirby-plugin",
-	"version": "1.0.2",
+	"version": "1.0.3",
     "keywords": [
         "kirby",
         "kirby-4",
