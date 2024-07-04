@@ -2,9 +2,13 @@
 
 All notable changes to `Kirby Middleware` will be documented in this file.
 
+## 1.0.4 - 2024-07-04
+
+- Delegate hook to Middleware facade
+
 ## 1.0.3 - 2024-07-01
 
-- Automatic send response in page.render:before hook
+- Automatic send response in `page.render:before` hook
 
 ## 1.0.2 - 2024-06-28
 

@@ -31,12 +31,12 @@ return [
         }
     },
     'page.render:before' => function (string $contentType, array $data, Page $page) {
-        if (Middleware::instance()->response() instanceof Exception && App::instance()->site()->page()->intendedTemplate()->name() !== 'error') {
-            throw Middleware::instance()->response();
+        if (Middleware::response() instanceof Exception && App::instance()->site()->page()->intendedTemplate()->name() !== 'error') {
+            throw Middleware::response();
         }
 
-        if (Middleware::instance()->response() instanceof Response) {
-            Middleware::instance()->response()->send();
+        if (Middleware::response() instanceof Response) {
+            Middleware::response()->send();
         }
 
         return $data;
