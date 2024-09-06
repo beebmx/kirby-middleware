@@ -1,13 +1,14 @@
 <?php
 
 use Beebmx\KirbyMiddleware\Exception\TokenMismatchException;
-use Beebmx\KirbyMiddleware\Http\ValidateCsrfToken;
+use Beebmx\KirbyMiddleware\Middlewares\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Request;
 use Kirby\Cms\App;
 use Kirby\Filesystem\Dir;
+use Kirby\Toolkit\Str;
 
 beforeEach(function () {
-    if (App::instance()->roots()->index() !== '/dev/null') {
+    if (Str::endsWith(App::instance()->roots()->index(), 'tmp/token') && Dir::exists(fixtures('tmp/token'))) {
         App::instance()->session()->destroy();
     }
 });
@@ -68,6 +69,6 @@ describe('options', function () {
 });
 
 afterAll(function () {
-    App::instance()->session()->destroy();
+    Dir::remove(fixtures('tmp/site'));
     Dir::remove(fixtures('tmp/token'));
 });

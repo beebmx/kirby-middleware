@@ -1,7 +1,7 @@
 <?php
 
-use Beebmx\KirbyMiddleware\Http\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Middleware;
+use Beebmx\KirbyMiddleware\Middlewares\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Request;
 use Tests\Fixtures\Middleware\SomeMiddleware;
 

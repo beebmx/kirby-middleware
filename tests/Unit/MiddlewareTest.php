@@ -1,8 +1,8 @@
 <?php
 
-use Beebmx\KirbyMiddleware\Http\TrimStrings;
-use Beebmx\KirbyMiddleware\Http\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Middleware;
+use Beebmx\KirbyMiddleware\Middlewares\TrimStrings;
+use Beebmx\KirbyMiddleware\Middlewares\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Request;
 use Beebmx\KirbyMiddleware\RouteCollection;
 use Kirby\Exception\Exception;
@@ -185,7 +185,6 @@ describe('groups', function () {
         ->toBeArray()
         ->toHaveKey('web')
         ->not->toHaveKeys(['test', 'ignored']);
-
 });
 
 describe('class groups', function () {

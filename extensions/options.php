@@ -7,4 +7,10 @@ return [
     'groups' => [],
     'routes' => [],
     'web' => [],
+    'auth' => [],
+    'guest' => [],
+    'redirections' => [
+        'guest' => 'login',
+        'auth' => 'dashboard',
+    ],
 ];

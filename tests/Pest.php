@@ -46,11 +46,11 @@ function App(
     array $children = [],
     array $roots = [],
     array $server = [],
+    array $hooks = [],
 ): Kirby {
     return new Kirby([
         'roots' => array_merge([
-            'index' => '/dev/null',
-            'base' => $base = dirname(__DIR__),
+            'index' => fixtures('tmp'),
         ], $roots),
         'templates' => [
             'default' => fixtures('templates/default.php'),
@@ -58,8 +58,10 @@ function App(
         'site' => [
             'children' => $children,
         ],
-        'options' => $options,
-        'hooks' => require extensions('hooks.php'),
+        'options' => array_merge([
+            'beebmx.kirby-middleware' => require extensions('options.php'),
+        ], $options),
+        'hooks' => array_merge(require extensions('hooks.php'), $hooks),
         'request' => $request,
         'users' => $users,
         'server' => $server,

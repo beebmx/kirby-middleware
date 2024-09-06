@@ -1,7 +1,7 @@
 <?php
 
 use Beebmx\KirbyMiddleware\Middleware;
-use Beebmx\KirbyMiddleware\Middlewares\TrimStrings;
+use Beebmx\KirbyMiddleware\Middlewares\ValidateCsrfToken;
 use Beebmx\KirbyMiddleware\Request;
 use Tests\Fixtures\Middleware\SomeMiddleware;
 
@@ -9,31 +9,36 @@ beforeEach(function () {
     Middleware::destroy();
 });
 
+it('exists an web middleware group', function () {
+    expect((new Middleware)->getMiddlewareGroups())
+        ->toHaveKey('web');
+});
+
 it('can add a middleware to the web middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.global' => [
+        'beebmx.kirby-middleware.web' => [
             SomeMiddleware::class,
         ],
     ]);
 
-    expect((new Middleware)->getGlobalMiddleware())
-        ->toContain(TrimStrings::class)
+    expect((new Middleware)->getMiddlewareGroupsBy('web')['web'])
+        ->toContain(ValidateCsrfToken::class)
         ->toContain(SomeMiddleware::class);
 });
 
 it('can be added a closure to the web middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.global' => [
+        'beebmx.kirby-middleware.web' => [
             function (Request $request, Closure $next) {
                 return $next($request);
             },
         ],
     ]);
 
-    $globals = (new Middleware)->getGlobalMiddleware();
+    $web = (new Middleware)->getMiddlewareGroupsBy('web')['web'];
 
-    expect(current($globals))
-        ->toContain(TrimStrings::class)
-        ->and(end($globals))
+    expect(current($web))
+        ->toContain(ValidateCsrfToken::class)
+        ->and(end($web))
         ->toBeInstanceOf(Closure::class);
 });

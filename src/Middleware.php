@@ -57,7 +57,9 @@ class Middleware
             ->setRoutes()
             ->setGlobalMiddleware()
             ->setMiddlewareGroups()
-            ->setWebMiddlewares();
+            ->setWebMiddlewares()
+            ->setAuthMiddlewares()
+            ->setGuestMiddlewares();
     }
 
     protected function setShouldSkipMiddleware(): static
@@ -85,6 +87,8 @@ class Middleware
     {
         $defaults = [
             \Beebmx\KirbyMiddleware\MiddlewareGroups\WebMiddlewareGroup::class,
+            \Beebmx\KirbyMiddleware\MiddlewareGroups\AuthMiddlewareGroup::class,
+            \Beebmx\KirbyMiddleware\MiddlewareGroups\GuestMiddlewareGroup::class,
         ];
 
         $groups = $this->kirby->option('beebmx.kirby-middleware.groups', []);
@@ -105,6 +109,20 @@ class Middleware
     protected function setWebMiddlewares(): static
     {
         $this->appendToGroup('web', $this->kirby->option('beebmx.kirby-middleware.web', []));
+
+        return $this;
+    }
+
+    protected function setAuthMiddlewares(): static
+    {
+        $this->appendToGroup('auth', $this->kirby->option('beebmx.kirby-middleware.auth', []));
+
+        return $this;
+    }
+
+    protected function setGuestMiddlewares(): static
+    {
+        $this->appendToGroup('guest', $this->kirby->option('beebmx.kirby-middleware.guest', []));
 
         return $this;
     }
@@ -233,7 +251,7 @@ class Middleware
     public function getGlobalMiddleware(): array
     {
         $globals = [
-            \Beebmx\KirbyMiddleware\Http\TrimStrings::class,
+            \Beebmx\KirbyMiddleware\Middlewares\TrimStrings::class,
         ];
 
         $globals = array_merge($globals, $this->globals);

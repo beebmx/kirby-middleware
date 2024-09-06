@@ -1,6 +1,6 @@
 <?php
 
-namespace Beebmx\KirbyMiddleware\Http;
+namespace Beebmx\KirbyMiddleware\Middlewares;
 
 use Beebmx\KirbyMiddleware\Request;
 use Closure;

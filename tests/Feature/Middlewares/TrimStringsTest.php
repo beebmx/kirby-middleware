@@ -1,6 +1,6 @@
 <?php
 
-use Beebmx\KirbyMiddleware\Http\TrimStrings;
+use Beebmx\KirbyMiddleware\Middlewares\TrimStrings;
 use Beebmx\KirbyMiddleware\Request;
 
 describe('basic', function () {

@@ -2,6 +2,11 @@
 
 All notable changes to `Kirby Middleware` will be documented in this file.
 
+## 1.1.0 - 2024-09-06
+
+- Added new auth middleware
+- Added new guest middleware
+
 ## 1.0.4 - 2024-07-04
 
 - Delegate hook to Middleware facade

@@ -108,7 +108,7 @@ Request::get('yourInput')
 
 ### Group middlewares
 
-The group middlewares will depend on routes to be triggered. By default, the group middleware comes with the `web` middleware, it brings a `ValidateCsrfToken` middleware.
+The group middlewares will depend on routes to be triggered. By default, the group middleware comes with the `web`, `auth` and `guest` middleware, it brings a `ValidateCsrfToken` middlewares.
 
 You can set the routes by adding the `routes` values in your `config.php` file:
 
@@ -128,6 +128,8 @@ You can set the routes by adding the `routes` values in your `config.php` file:
 > You can add a [pattern](https://getkirby.com/docs/reference/router/patterns) like any `Kirby` route
 >
 > By default, the `web` group comes with the `(:all)` route.
+>
+> The `auth` and `guest` middlewares are inactive by default, but you can customize the routes to enable them.
 
 And of course, you can add more features to the `web` middleware in your `config.php` file:
 
@@ -158,7 +160,7 @@ class MyOwnMiddlewareGroup extends MiddlewareGroup
 {
     public string $name = 'review';
 
-    public string|array $routes = [
+    public string|array|null $routes = [
         'blog/(:any)',
         'content/(:alpha)',
     ];
@@ -199,6 +201,57 @@ Sometimes you need to ignore some `routes` from the CSRF validation; you can ski
     ],
 ],
 ```
+
+### Security middlewares
+
+`Kirby Middleware` comes with two (`auth` and `guest`) middlewares to improve your security flow based on user authentication.
+
+#### Auth middleware
+
+The `auth` middleware provides a starting point to validate if the user is authenticated and if the user is able to visit given routes. If not, it will redirect to some `URL` to perform a proper login.
+
+Heres an example of it:
+
+```php
+'beebmx.kirby-middleware' => [
+    'routes' => [
+      'auth' => [
+            'dashboard',
+            'dashboard/(:all)',
+            'logout',
+        ],
+    ],
+    'redirections' => [
+        'guest' => 'login',
+    ],
+],
+```
+
+> [!NOTE]
+> If the user is not authenticated, the middleware will redirect to a `guest` page.
+
+#### Guest middleware
+
+The `guest` middleware provides a starting point to validate if the visitor is a guest and is unauthenticated. If the user is authenticated, it will redirect to some `URL` to be inside a secured welcome page or dashboard.
+
+Heres an example of it:
+
+```php
+'beebmx.kirby-middleware' => [
+    'routes' => [
+        'guest' => [
+            'login',
+        ],
+    ],
+    'redirections' => [
+        'auth' => 'dashboard',
+    ],
+],
+```
+
+> [!NOTE]
+> If the user is authenticated, the middleware will redirect to a `auth` page.
+
 
 ## Middleware
 
@@ -273,7 +326,7 @@ class UserShouldBeAuthenticated
 
 ### Closure middleware
 
-The easiest way to add a `global` or `web` middleware is with a `Closure`; when you add a closure, it should look like:
+The easiest way to add a `global`, `web`, `auth` or `guest` middleware is with a `Closure`; when you add a closure, it should look like:
 
 ```php
 use Beebmx\KirbyMiddleware\Request;
@@ -293,17 +346,19 @@ use Closure;
 > [!IMPORTANT]
 > Remember to call the `$next` closure to proceed to the next validation with the `$request`.
 
-
 ## Options
 
-| Option                             | Default |  Type   | Description                                       |
-|:-----------------------------------|:-------:|:-------:|:--------------------------------------------------|
-| beebmx.kirby-middleware.enabled    |  true   | `bool`  | Enable/Disable all `Kirby Middleware`.            |
-| beebmx.kirby-middleware.exceptions |   []    | `array` | Set exceptions for `trim` and `csrf` middlewares. |
-| beebmx.kirby-middleware.global     |   []    | `array` | Add your own `global` middlewares.                |
-| beebmx.kirby-middleware.groups     |   []    | `array` | Add your own `groups` middlewares.                |
-| beebmx.kirby-middleware.routes     |   []    | `array` | Customize your group `routes`.                    |
-| beebmx.kirby-middleware.web        |   []    | `array` | Add your own `web` middlewares.                   |
+| Option                               | Default |  Type   | Description                                                       |
+|:-------------------------------------|:-------:|:-------:|:------------------------------------------------------------------|
+| beebmx.kirby-middleware.enabled      |  true   | `bool`  | Enable/Disable all `Kirby Middleware`.                            |
+| beebmx.kirby-middleware.exceptions   |   []    | `array` | Set exceptions for `trim` and `csrf` middlewares.                 |
+| beebmx.kirby-middleware.global       |   []    | `array` | Add your own `global` middlewares.                                |
+| beebmx.kirby-middleware.groups       |   []    | `array` | Add your own `groups` middlewares.                                |
+| beebmx.kirby-middleware.routes       |   []    | `array` | Customize your group `routes`.                                    |
+| beebmx.kirby-middleware.web          |   []    | `array` | Add your own `web` middlewares.                                   |
+| beebmx.kirby-middleware.auth         |   []    | `array` | Add your own `auth` middlewares.                                  |
+| beebmx.kirby-middleware.guest        |   []    | `array` | Add your own `guest` middlewares.                                 |
+| beebmx.kirby-middleware.redirections |   []    | `array` | Customize your `redirections` for `auth` and `guest` middlewares. |
 
 ### Disable middleware
 
@@ -363,7 +418,7 @@ The `append` method adds the middleware to the end of the `global` middleware.
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::append(ValidateVisitor::class),
+Middleware::append(ValidateVisitor::class);
 ```
 
 #### Prepend
@@ -373,7 +428,7 @@ The `prepend` method adds the middleware to the beginning of the `global` middle
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::prepend(ValidateVisitor::class),
+Middleware::prepend(ValidateVisitor::class);
 ```
 
 #### getGlobalMiddleware
@@ -383,7 +438,7 @@ The `getGlobalMiddleware` method returns an array of all the `global` middleware
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::getGlobalMiddleware(),
+Middleware::getGlobalMiddleware();
 ```
 
 ### Group methods
@@ -425,7 +480,7 @@ The `removeFromGroup` method removes some middleware from a specific `group` mid
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::removeFromGroup('security', ValidateVisitor::class),
+Middleware::removeFromGroup('security', ValidateVisitor::class);
 ```
 
 #### addClassToGroup
@@ -435,7 +490,7 @@ The `addClassToGroup` method adds a `Middleware Group` class to the `groups` mid
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::addClassToGroup(SecurityMiddlewareGroup::class),
+Middleware::addClassToGroup(SecurityMiddlewareGroup::class);
 ```
 
 #### getMiddlewareGroups
@@ -445,7 +500,60 @@ The `getMiddlewareGroups` method returns an array of all the `groups` middleware
 ```php
 use Beebmx\KirbyMiddleware\Facades\Middleware;
 
-Middleware::getMiddlewareGroups(),
+Middleware::getMiddlewareGroups();
+```
+
+### Authenticate middleware
+
+You can customize the `Authenticate` middleware without using options, but hook `system.loadPlugins:after`.
+
+#### redirectUsing
+
+To set the route to redirect if the user is not authenticated.
+
+```php
+use Beebmx\KirbyMiddleware\Middlewares\Authenticate;
+
+Authenticate::redirectUsing('login');
+```
+
+#### setRoutes
+
+If you want to set the routes for the `AuthMiddlewareGroup`.
+
+```php
+use Beebmx\KirbyMiddleware\MiddlewareGroups\AuthMiddlewareGroup;
+
+AuthMiddlewareGroup::setRoutes([
+    'dashboard',
+    'logout',
+]);
+```
+
+### RedirectIfAuthenticated middleware
+
+You can customize the `RedirectIfAuthenticated` middleware without using options, but hook `system.loadPlugins:after`.
+
+#### redirectUsing
+
+To set the route to redirect if the user is authenticated.
+
+```php
+use Beebmx\KirbyMiddleware\Middlewares\RedirectIfAuthenticated;
+
+RedirectIfAuthenticated::redirectUsing('dashboard');
+```
+
+#### setRoutes
+
+If you want to set the routes for the `GuestMiddlewareGroup`.
+
+```php
+use Beebmx\KirbyMiddleware\MiddlewareGroups\GuestMiddlewareGroup;
+
+GuestMiddlewareGroup::MiddlewareGroup::setRoutes([
+    'login',
+]);
 ```
 
 > [!IMPORTANT]
@@ -456,7 +564,8 @@ Middleware::getMiddlewareGroups(),
 - [ ] Custom hooks
 - [ ] More `global` middlewares by default
 - [ ] More `web` middlewares by default
-- [ ] An `auth` middleware group.
+- [x] An `auth` middleware group.
+- [x] A `guest` middleware group.
 
 ## License
 
@@ -466,7 +575,3 @@ Licensed under the [MIT](LICENSE.md).
 
 - Fernando Gutierrez [@beebmx](https://github.com/beebmx)
 - [All Contributors](../../contributors)
-
-
-
-
