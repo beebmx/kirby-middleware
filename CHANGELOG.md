@@ -2,6 +2,12 @@
 
 All notable changes to `Kirby Middleware` will be documented in this file.
 
+## 1.2.0 - 2025-06-18
+
+- Added support for Kirby@5.x
+- Upgrade to pest@3.x
+- Update github actions
+
 ## 1.1.0 - 2024-09-06
 
 - Added new auth middleware
