@@ -48,7 +48,7 @@ function App(
             'children' => $children,
         ],
         'options' => array_merge([
-            'beebmx.kirby-middleware' => require extensions('options.php'),
+            'beebmx.middleware' => require extensions('options.php'),
         ], $options),
         'hooks' => array_merge(require extensions('hooks.php'), $hooks),
         'request' => $request,

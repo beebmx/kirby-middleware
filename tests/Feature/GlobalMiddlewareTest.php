@@ -11,7 +11,7 @@ beforeEach(function () {
 
 it('can add a middleware to the web middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.global' => [
+        'beebmx.middleware.global' => [
             SomeMiddleware::class,
         ],
     ]);
@@ -23,7 +23,7 @@ it('can add a middleware to the web middleware group', function () {
 
 it('can be added a closure to the web middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.global' => [
+        'beebmx.middleware.global' => [
             function (Request $request, Closure $next) {
                 return $next($request);
             },

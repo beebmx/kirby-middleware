@@ -26,7 +26,7 @@ it('has a default route path for web middleware')
 
 it('returns the paths for currend middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.routes' => [
+        'beebmx.middleware.routes' => [
             'web' => [
                 'blog/(:any)',
                 'content/(:any)',
@@ -41,7 +41,7 @@ it('returns the paths for currend middleware group', function () {
 
 it('can change the default route paths', function () {
     App(options: [
-        'beebmx.kirby-middleware.routes' => [
+        'beebmx.middleware.routes' => [
             'web' => [
                 'blog/(:any)',
                 'content/(:any)',
@@ -60,7 +60,7 @@ it('can change the default route paths', function () {
 
 it('doesnt matter if the key is uppercase', function () {
     App(options: [
-        'beebmx.kirby-middleware.routes' => [
+        'beebmx.middleware.routes' => [
             'WEB' => 'blog/(:any)',
         ],
     ]);
@@ -75,7 +75,7 @@ it('can be added a new group by using the options setting', function () {
     Middleware::destroy();
 
     App(options: [
-        'beebmx.kirby-middleware.groups' => [
+        'beebmx.middleware.groups' => [
             EmptyMiddlewareGroup::class,
         ],
     ]);

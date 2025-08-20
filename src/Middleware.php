@@ -64,21 +64,21 @@ class Middleware
 
     protected function setShouldSkipMiddleware(): static
     {
-        $this->shouldSkipMiddleware = ! $this->kirby->option('beebmx.kirby-middleware.enabled', true);
+        $this->shouldSkipMiddleware = ! $this->kirby->option('beebmx.middleware.enabled', true);
 
         return $this;
     }
 
     protected function setRoutes(): static
     {
-        $this->routes = new RouteCollection($this->kirby->option('beebmx.kirby-middleware.routes', []));
+        $this->routes = new RouteCollection($this->kirby->option('beebmx.middleware.routes', []));
 
         return $this;
     }
 
     protected function setGlobalMiddleware(): static
     {
-        $this->globals = $this->kirby->option('beebmx.kirby-middleware.global', []);
+        $this->globals = $this->kirby->option('beebmx.middleware.global', []);
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Middleware
             \Beebmx\KirbyMiddleware\MiddlewareGroups\GuestMiddlewareGroup::class,
         ];
 
-        $groups = $this->kirby->option('beebmx.kirby-middleware.groups', []);
+        $groups = $this->kirby->option('beebmx.middleware.groups', []);
 
         $middlewares = array_merge($defaults, $groups);
 
@@ -108,21 +108,21 @@ class Middleware
 
     protected function setWebMiddlewares(): static
     {
-        $this->appendToGroup('web', $this->kirby->option('beebmx.kirby-middleware.web', []));
+        $this->appendToGroup('web', $this->kirby->option('beebmx.middleware.web', []));
 
         return $this;
     }
 
     protected function setAuthMiddlewares(): static
     {
-        $this->appendToGroup('auth', $this->kirby->option('beebmx.kirby-middleware.auth', []));
+        $this->appendToGroup('auth', $this->kirby->option('beebmx.middleware.auth', []));
 
         return $this;
     }
 
     protected function setGuestMiddlewares(): static
     {
-        $this->appendToGroup('guest', $this->kirby->option('beebmx.kirby-middleware.guest', []));
+        $this->appendToGroup('guest', $this->kirby->option('beebmx.middleware.guest', []));
 
         return $this;
     }

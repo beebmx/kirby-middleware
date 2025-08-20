@@ -73,7 +73,7 @@ describe('basic', function () {
 describe('options', function () {
     it('can ignore inputs', function () {
         $kirby = App(options: [
-            'beebmx.kirby-middleware.exceptions' => [
+            'beebmx.middleware.exceptions' => [
                 'trim' => [
                     'secured',
                 ],

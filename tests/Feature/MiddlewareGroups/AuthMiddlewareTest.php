@@ -17,7 +17,7 @@ it('exists an auth middleware group', function () {
 
 it('can add a middleware to the auth middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.auth' => [
+        'beebmx.middleware.auth' => [
             SomeMiddleware::class,
         ],
     ]);
@@ -29,7 +29,7 @@ it('can add a middleware to the auth middleware group', function () {
 
 it('can be added a closure to the auth middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.auth' => [
+        'beebmx.middleware.auth' => [
             function (Request $request, Closure $next) {
                 return $next($request);
             },

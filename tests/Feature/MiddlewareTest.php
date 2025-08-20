@@ -24,7 +24,7 @@ describe('basic', function () {
 describe('options', function () {
     it('can disabled middleware functionality', function () {
         $kirby = App(options: [
-            'beebmx.kirby-middleware.enabled' => false,
+            'beebmx.middleware.enabled' => false,
         ], children: [
             ['slug' => 'home'],
         ]);

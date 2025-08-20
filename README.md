@@ -5,9 +5,9 @@
 <a href="https://packagist.org/packages/beebmx/kirby-middleware"><img src="https://img.shields.io/packagist/l/beebmx/kirby-middleware" alt="License"></a>
 </p>
 
-# Kirby Middleware
+# Middleware for Kirby
 
-`Kirby Middleware` provides a powerful mechanism for inspecting and filtering requests entering your `Kirby` site.
+`Middleware` provides a powerful mechanism for inspecting and filtering requests entering your `Kirby` site.
 
 ****
 
@@ -38,7 +38,7 @@ composer require beebmx/kirby-middleware
 ## Usage
 
 Out of the box, you don't need to do anything to start using (except for installation).
-When you install the `Kirby Middleware` package, it comes with two ways of management middlewares, `global` middlewares and `groups` of middlewares.
+When you install the `Middleware` package, it comes with two ways of management middlewares, `global` middlewares and `groups` of middlewares.
 
 
 ### Global middlewares
@@ -62,7 +62,7 @@ $request = Request::instance();
 You can add features to the `global` middleware in your `config.php` file:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'global' => [
         MyOwnGlobalMiddleware::class,
     ],
@@ -80,7 +80,7 @@ You can add features to the `global` middleware in your `config.php` file:
 `TrimStrings` clean all the inputs in the request, but sometimes you need to ignore some `inputs` to be trimmed; you can skip it with:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'exceptions' => [
         'trim' => [
             'password',
@@ -113,7 +113,7 @@ The group middlewares will depend on routes to be triggered. By default, the gro
 You can set the routes by adding the `routes` values in your `config.php` file:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'routes' => [
         'web' => [
             'blog/(:any)',
@@ -134,7 +134,7 @@ You can set the routes by adding the `routes` values in your `config.php` file:
 And of course, you can add more features to the `web` middleware in your `config.php` file:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'web' => [
         MyOwnMiddleware::class,
     ],
@@ -144,7 +144,7 @@ And of course, you can add more features to the `web` middleware in your `config
 If the `web` group is not what you need, you can add a new group of middleware. You can add it within the `config.php` file:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'groups' => [
         MyOwnMiddlewareGroup::class,
     ],
@@ -192,7 +192,7 @@ When you use an HTML form with `POST`, `PUT`, `PATCH`, or `DELETE` in your templ
 Sometimes you need to ignore some `routes` from the CSRF validation; you can skip it with:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'exceptions' => [
         'csrf' => [
             'payment',
@@ -204,7 +204,7 @@ Sometimes you need to ignore some `routes` from the CSRF validation; you can ski
 
 ### Security middlewares
 
-`Kirby Middleware` comes with two (`auth` and `guest`) middlewares to improve your security flow based on user authentication.
+`Middleware` comes with two (`auth` and `guest`) middlewares to improve your security flow based on user authentication.
 
 #### Auth middleware
 
@@ -213,7 +213,7 @@ The `auth` middleware provides a starting point to validate if the user is authe
 Heres an example of it:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'routes' => [
       'auth' => [
             'dashboard',
@@ -237,7 +237,7 @@ The `guest` middleware provides a starting point to validate if the visitor is a
 Heres an example of it:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'routes' => [
         'guest' => [
             'login',
@@ -332,7 +332,7 @@ The easiest way to add a `global`, `web`, `auth` or `guest` middleware is with a
 use Beebmx\KirbyMiddleware\Request;
 use Closure;
 
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'web' => [
         function (Request $request, Closure $next) {
             // Perform action
@@ -348,24 +348,27 @@ use Closure;
 
 ## Options
 
-| Option                               | Default |  Type   | Description                                                       |
-|:-------------------------------------|:-------:|:-------:|:------------------------------------------------------------------|
-| beebmx.kirby-middleware.enabled      |  true   | `bool`  | Enable/Disable all `Kirby Middleware`.                            |
-| beebmx.kirby-middleware.exceptions   |   []    | `array` | Set exceptions for `trim` and `csrf` middlewares.                 |
-| beebmx.kirby-middleware.global       |   []    | `array` | Add your own `global` middlewares.                                |
-| beebmx.kirby-middleware.groups       |   []    | `array` | Add your own `groups` middlewares.                                |
-| beebmx.kirby-middleware.routes       |   []    | `array` | Customize your group `routes`.                                    |
-| beebmx.kirby-middleware.web          |   []    | `array` | Add your own `web` middlewares.                                   |
-| beebmx.kirby-middleware.auth         |   []    | `array` | Add your own `auth` middlewares.                                  |
-| beebmx.kirby-middleware.guest        |   []    | `array` | Add your own `guest` middlewares.                                 |
-| beebmx.kirby-middleware.redirections |   []    | `array` | Customize your `redirections` for `auth` and `guest` middlewares. |
+| Option                         | Default |  Type   | Description                                                       |
+|:-------------------------------|:-------:|:-------:|:------------------------------------------------------------------|
+| beebmx.middleware.enabled      |  true   | `bool`  | Enable/Disable all `Middleware`.                                  |
+| beebmx.middleware.exceptions   |   []    | `array` | Set exceptions for `trim` and `csrf` middlewares.                 |
+| beebmx.middleware.global       |   []    | `array` | Add your own `global` middlewares.                                |
+| beebmx.middleware.groups       |   []    | `array` | Add your own `groups` middlewares.                                |
+| beebmx.middleware.routes       |   []    | `array` | Customize your group `routes`.                                    |
+| beebmx.middleware.web          |   []    | `array` | Add your own `web` middlewares.                                   |
+| beebmx.middleware.auth         |   []    | `array` | Add your own `auth` middlewares.                                  |
+| beebmx.middleware.guest        |   []    | `array` | Add your own `guest` middlewares.                                 |
+| beebmx.middleware.redirections |   []    | `array` | Customize your `redirections` for `auth` and `guest` middlewares. |
 
+> [!WARNING]
+> Since version `1.3.0`, `Middleware` changes the plugin prefix from `beebmx.kirby-middleware` to `beebmx.middleware`.
+>
 ### Disable middleware
 
 You can completly disable all middleware validations updating the `enable` value in the `config.php` file:
 
 ```php
-'beebmx.kirby-middleware' => [
+'beebmx.middleware' => [
     'enabled' => false,
 ],
 ```
@@ -382,11 +385,11 @@ There are some `facades` to simplify the use of this plugin:
 
 ## Plugins
 
-If you are creating your own plugin, and it's required to use some type of request manipulation, `Kirby Middleware` is also for you.
+If you are creating your own plugin, and it's required to use some type of request manipulation, `Middleware` is also for you.
 
 ### Installation
 
-First, you need to inform `Kirby Middleware` than you have some `global` middleware or `group` middleware to register.
+First, you need to inform `Middleware` than you have some `global` middleware or `group` middleware to register.
 
 The easyest way to do this, is with a hook
 

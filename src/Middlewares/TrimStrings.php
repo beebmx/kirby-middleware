@@ -79,7 +79,7 @@ class TrimStrings
 
     protected function exceptInputs(): array
     {
-        $exceptions = array_change_key_case(App::instance()->option('beebmx.kirby-middleware.exceptions', []));
+        $exceptions = array_change_key_case(App::instance()->option('beebmx.middleware.exceptions', []));
 
         return array_key_exists('trim', $exceptions)
             ? $exceptions['trim']

@@ -54,7 +54,7 @@ describe('validation', function () {
 describe('options', function () {
     it('can ignore paths', function () {
         $kirby = App(options: [
-            'beebmx.kirby-middleware.exceptions' => [
+            'beebmx.middleware.exceptions' => [
                 'csrf' => [
                     'test',
                     'blog',

@@ -27,7 +27,7 @@ trait HasRedirection
 
     protected function getDefaultFor(string $guard)
     {
-        return App::instance()->option("beebmx.kirby-middleware.redirections.{$guard}");
+        return App::instance()->option("beebmx.middleware.redirections.{$guard}");
     }
 
     public static function redirectUsing(Closure|string $redirectTo): void

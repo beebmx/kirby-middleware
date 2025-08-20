@@ -32,7 +32,7 @@ trait MiddlewareGroup
 
     public function getKirbyMiddlewareRoutes()
     {
-        return App::instance()->option('beebmx.kirby-middleware.routes', []);
+        return App::instance()->option('beebmx.middleware.routes', []);
     }
 
     protected function getRouteByName()

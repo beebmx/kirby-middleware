@@ -17,7 +17,7 @@ it('exists an guest middleware group', function () {
 
 it('can add a middleware to the guest middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.guest' => [
+        'beebmx.middleware.guest' => [
             SomeMiddleware::class,
         ],
     ]);
@@ -29,7 +29,7 @@ it('can add a middleware to the guest middleware group', function () {
 
 it('can be added a closure to the guest middleware group', function () {
     App(options: [
-        'beebmx.kirby-middleware.guest' => [
+        'beebmx.middleware.guest' => [
             function (Request $request, Closure $next) {
                 return $next($request);
             },

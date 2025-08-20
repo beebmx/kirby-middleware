@@ -15,7 +15,7 @@ beforeEach(function () {
 describe('settings', function () {
     it('can set the routes by config file', function () {
         App(options: [
-            'beebmx.kirby-middleware.routes' => [
+            'beebmx.middleware.routes' => [
                 'auth' => [
                     'dashboard',
                     'dashboard/(:all)',
@@ -97,7 +97,7 @@ describe('login', function () {
 describe('options', function () {
     it('can set the routes by config file', function () {
         App(options: [
-            'beebmx.kirby-middleware' => [
+            'beebmx.middleware' => [
                 'redirections' => [
                     'guest' => 'admin/login',
                 ],
